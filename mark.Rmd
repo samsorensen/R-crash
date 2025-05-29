@@ -28,20 +28,110 @@ You can also embed plots, for example:
 plot(pressure)
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generatedc the plot.
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
 
-## Syntax & Hotkeys
-- Comment with ctrl-shift-c
-- Execute highlighted with ctrl-enter
+## Syntax & Hot-keys
 
+-   Comment with ctrl-shift-c
+-   Execute current line with ctrl-enter
+-   Execute entire chunk with ctrl-shift-enter
 
+```{r}
+my_string <- "hello world"
+print(my_string)
 
+7
+x <- 1
+y <- 2
+z <- x + y
+```
 
+## R Objects
 
+-   vectors
+-   Lists
+-   Matrices
+-   Arrays
+-   Factors
+-   Data Frames
 
+### vectors
 
+c - combine function
 
+```{r}
+apple <- c("red", "green", "yellow")
+print(apple)
+print(class(apple))
+```
 
+### Lists
 
+Can contain different r-object types
 
+```{r}
+list1 <- list(c(2, 5, 3), 21, sin, TRUE)
+print(list1)
+```
 
+### Matrices
+
+Two dimensional rectangular data set. Can be created using a vector input to the matrix function
+
+```{r}
+M = matrix(c('a', 'a', 'b', 'c', 'b', 'a'), nrow = 2, ncol = 3, byrow = TRUE)
+print(M)
+```
+
+### Arrays
+
+Arrays are multi-dimensional data structures. They can be created using the `array` function.
+
+```{r}
+# repeats values until dimensions filled
+a <- array(c('green', 'yellow'), dim = c(3, 3, 2))
+print(a)
+```
+
+### Data Frames
+
+Tabular data objects. Created with `data.frame` function. It is a list of vectors of equal length. Each column can be a different type.
+
+```{r}
+BMI <- data.frame(
+  Gender = factor(c("Male", "Female", "Male")),
+  Height = c(1.75, 1.60, 1.80),
+  Weight = c(70, 60, 80),
+  Age = c(52, 18, 34)
+)
+print(BMI)
+```
+
+## Get your Data into R
+
+```{r}
+# install.packages("tidyverse")
+library(tidyverse)
+```
+
+### Clean your Data & Re-shape it
+
+Dplyr and the Pipe %\>% mpg - built in data set (miles per gallon)
+
+```{r}
+mpg %>% # pipes mpg to filter
+  
+dplyr::filter(model == "a4") %>% # return rows that satisfy condition
+
+dplyr::arrange(year, cyl) %>% # reorder your columns
+
+dplyr::mutate(old = year < 2000,
+              full_wheel_drive = drv == 'f') %>% # add new preserve old
+
+# dplyr::transmute("full_wheel_drive" = drv == "f") # add new drop old
+
+dplyr::select(-drv) # keep or remove columns (all but drv)
+
+mpg %>%
+dplyr::count(model, sort = TRUE) # create aggregate stats
+```

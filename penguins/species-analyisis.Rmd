@@ -1,0 +1,60 @@
+---
+title: "Analyzing Penguin Species"
+author: "Sam Sorensen"
+date: "2025-05-29"
+output: html_document
+---
+
+```{r}
+
+```
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Necessary Packages
+
+```{r, message=FALSE}
+library(palmerpenguins)
+library(tidyverse)
+library(janitor)
+```
+
+## Import & Clean Data
+
+`clean_names()` from the `janitor` package
+
+```{r}
+data <- penguins %>%
+  clean_names() %>%
+  drop_na()
+print(data)
+```
+
+## Explore Data
+
+```{r}
+glimpse(data)
+summary(data)
+```
+
+## Summarize: Average Body Mass by Species and Sex
+
+```{r}
+summary_table <- data %>%
+  group_by(species, sex) %>%
+  summarize(avg_body_mass_g = mean(body_mass_g), .groups = "drop")
+print(summary_table)
+```
+
+## Visualize: Flipper Length vs. Body Mass by Species
+
+```{r}
+ggplot(data, aes(x = flipper_length_mm, y = body_mass_g, color = species)) +
+  geom_point() +
+  labs(title = "Flipper Length vs. Body Mass",
+       x = "Flipper Length (mm)",
+       y = "Body Mass (g)") +
+  theme_minimal()
+```
